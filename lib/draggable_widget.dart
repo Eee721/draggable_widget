@@ -127,6 +127,8 @@ class _DraggableWidgetState extends State<DraggableWidget>
 
   bool isStillTouching = false;
 
+  bool bDisposed = false;
+
   @override
   void initState() {
     currentlyDocked = widget.initialPosition;
@@ -173,6 +175,7 @@ class _DraggableWidgetState extends State<DraggableWidget>
         await Future.delayed(Duration(
           milliseconds: 100,
         ));
+        if (bDisposed) return ;
         setState(() {
           offstage = false;
           boundary = MediaQuery.of(context).size.height - widget.bottomMargin;
@@ -197,6 +200,7 @@ class _DraggableWidgetState extends State<DraggableWidget>
 
   @override
   void dispose() {
+    bDisposed = true;
     animationController.dispose();
     super.dispose();
   }
